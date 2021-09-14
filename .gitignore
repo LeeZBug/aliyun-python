@@ -1,3 +1,4 @@
 /venv/
 /test/
-config.ini
+/**/config.ini
+/aliyunapi/akinfo.py
