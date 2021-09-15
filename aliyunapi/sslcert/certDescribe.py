@@ -50,10 +50,12 @@ def describe_cert_state_after(ordid):
 
 
 if __name__ == '__main__':
-    argcheck(sys.argv, 2)
+    argcheck(sys.argv, 4)
     account = sys.argv[1]
+    ordid = sys.argv[2]
+    domain = sys.argv[3]
     """
-    命令行运行需要2个参数顺序为：ak配置文件选项名(domainakinfo,cdnakinfo)， 申请证书的域名
+    命令行运行需要2个参数顺序为：ak配置文件选项名(domainakinfo,cdnakinfo)， 申请证书返回的OrderID, 申请证书的域名
     """
     region, akid, aksrt = akconfig(account)
     # print(region, akid, aksrt)
