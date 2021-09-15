@@ -6,13 +6,12 @@ import sys
 from aliyunapi.tool.Utils import *
 
 
-argcheck(sys.argv, 4)
-sys.argv.pop(0)
+argcheck(sys.argv, 5)
 """
 命令行运行需要4个参数，参数顺序为： ak配置文件选项名(domainakinfo,cdnakinfo), 主机记录， 记录类型，记录值。调用只在在zjrongxiang.com的域上进行添加二级域名
 """
-account, rr, recordtype, value = sys.argv
-print(account, rr, recordtype, value)
+account, rr, recordtype, value = sys.argv[1:5]
+# print(account, rr, recordtype, value)
 
 region, akid, aksrt = akconfig(account)
 # print(region, akid, aksrt)
@@ -26,4 +25,6 @@ request.set_Type(recordtype)
 request.set_Value(value)
 
 response = client.do_action_with_exception(request)
-print(str(response, encoding='utf-8'))
+if "RecordId" in str(response, encoding='utf-8'):
+    print("DNS记录已增加，主机名{0}，记录类型{1}，记录值{2}".format(rr, recordtype, value))
+    print("完整域名为："+rr+".zjrongxiang.com")
