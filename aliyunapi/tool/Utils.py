@@ -77,6 +77,15 @@ class AttrDict(dict):
         self.__delitem__(item)
 
 
+# 输入完整域名返回主机名和主域名
+def domain_convert(fulldomain):
+    index = fulldomain.find('.')
+    hostname = fulldomain[0:index]
+    domainname = fulldomain[index + 1:]
+    return hostname, domainname
+
+
 if __name__ == '__main__':
-    region, akid, aksrt = akconfig("domainakinfo")
-    print("#####account akinfo#######:\nregion:{0}\nakid:{1}\naksrt:{2}\n".format(region, akid, aksrt))
+    # region, akid, aksrt = akconfig("domainakinfo")
+    # print("#####account akinfo#######:\nregion:{0}\nakid:{1}\naksrt:{2}\n".format(region, akid, aksrt))
+    print(domain_convert('www.zjrongxiang.com'))
