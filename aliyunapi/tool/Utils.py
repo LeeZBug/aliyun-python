@@ -62,6 +62,21 @@ def argcheck(arglist, num):
         pass
 
 
+# 继承自dict，实现可以通过.来操作元素
+class AttrDict(dict):
+    def __setattr__(self, key, value):
+        self.__setitem__(key, value)
+
+    def __getattr__(self, item):
+        try:
+            return self.__getitem__(item)
+        except KeyError:
+            raise AttributeError(item)
+
+    def __delattr__(self, item):
+        self.__delitem__(item)
+
+
 if __name__ == '__main__':
     region, akid, aksrt = akconfig("domainakinfo")
     print("#####account akinfo#######:\nregion:{0}\nakid:{1}\naksrt:{2}\n".format(region, akid, aksrt))
