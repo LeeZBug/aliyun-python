@@ -13,6 +13,13 @@ class DnsRecord:
         self.response_format = response_format
 
     def get_dns_info(self, fulldomain='', pagenumber=1, pagesize=200):
+        """
+
+        :param fulldomain:
+        :param pagenumber:
+        :param pagesize:
+        :return:
+        """
         hostname, domainname = domain_convert(fulldomain=fulldomain)
         request = DescribeDomainRecordsRequest()
         request.set_accept_format(self.response_format)
@@ -42,17 +49,25 @@ class DnsRecord:
     # recordtype：可选A，CNAME,TXT等参数,str
     # domain：主域,str
     # value：记录值,str
-    def add_dns_record(self, rr, recordtype, domain, value):
+    def add_dns_record(self, rr, record_type, domain, value):
+        """
+
+        :param rr:
+        :param record_type:
+        :param domain:
+        :param value:
+        :return:
+        """
         request = AddDomainRecordRequest()
         request.set_accept_format(self.response_format)
         request.set_DomainName(domain)
         request.set_RR(rr)
-        request.set_Type(recordtype)
+        request.set_Type(record_type)
         request.set_Value(value)
 
         response = self.client.do_action_with_exception(request)
         if "RecordId" in str(response, encoding='utf-8'):
-            print("DNS记录已增加，主机名{0}，记录类型{1}，记录值{2}".format(rr, recordtype, value))
+            print("DNS记录已增加，主机名{0}，记录类型{1}，记录值{2}".format(rr, record_type, value))
             fulldomain = convert_domain(rr, domain)
             print("完整域名为：" + fulldomain)
 
@@ -62,14 +77,18 @@ class DnsRecord:
     # record_id,dns记录id,str
     # status,可选Disable和Enable,str
     def change_record_status(self, record_id, status):
+        """
+
+        :param record_id:
+        :param status:
+        :return:
+        """
         request = SetDomainRecordStatusRequest()
         request.set_accept_format(self.response_format)
         request.set_RecordId(record_id)
         request.set_Status(status)
         response = self.client.do_action_with_exception(request)
         print(str(response, encoding='utf-8'))
-
-
 
 
 
