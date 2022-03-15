@@ -59,6 +59,8 @@ class DnsRecord:
     def del_dns_record(self, record_id):
         pass
 
+    # record_id,dns记录id,str
+    # status,可选Disable和Enable,str
     def change_record_status(self, record_id, status):
         request = SetDomainRecordStatusRequest()
         request.set_accept_format(self.response_format)
