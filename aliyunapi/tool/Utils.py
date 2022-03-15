@@ -85,6 +85,11 @@ def domain_convert(fulldomain):
     return hostname, domainname
 
 
+# 输入主机名和主域名，返回完整域名
+def convert_domain(hostname, domainname):
+    return hostname+'.'+domainname
+
+
 if __name__ == '__main__':
     # region, akid, aksrt = akconfig("domainakinfo")
     # print("#####account akinfo#######:\nregion:{0}\nakid:{1}\naksrt:{2}\n".format(region, akid, aksrt))

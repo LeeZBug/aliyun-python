@@ -1,4 +1,5 @@
 from aliyunapi.tool.Utils import domain_convert
+from aliyunapi.tool.Utils import convert_domain
 from aliyunapi.tool.Utils import AttrDict
 from aliyunsdkalidns.request.v20150109.DescribeDomainRecordsRequest import DescribeDomainRecordsRequest
 from aliyunsdkalidns.request.v20150109.AddDomainRecordRequest import AddDomainRecordRequest
@@ -37,6 +38,10 @@ class DnsRecord:
             print("未找到该域名解析记录")
             return False
 
+    # rr：主机名,str
+    # recordtype：可选A，CNAME,TXT等参数,str
+    # domain：主域,str
+    # value：记录值,str
     def add_dns_record(self, rr, recordtype, domain, value):
         request = AddDomainRecordRequest()
         request.set_accept_format(self.response_format)
@@ -48,13 +53,19 @@ class DnsRecord:
         response = self.client.do_action_with_exception(request)
         if "RecordId" in str(response, encoding='utf-8'):
             print("DNS记录已增加，主机名{0}，记录类型{1}，记录值{2}".format(rr, recordtype, value))
-            print("完整域名为：" + rr + domain)
+            fulldomain = convert_domain(rr, domain)
+            print("完整域名为：" + fulldomain)
 
     def del_dns_record(self, record_id):
         pass
 
-    def change_record_status(self):
-        pass
+    def change_record_status(self, record_id, status):
+        request = SetDomainRecordStatusRequest()
+        request.set_accept_format(self.response_format)
+        request.set_RecordId(record_id)
+        request.set_Status(status)
+        response = self.client.do_action_with_exception(request)
+        print(str(response, encoding='utf-8'))
 
 
 
