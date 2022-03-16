@@ -23,7 +23,7 @@ class DnsRecord:
 
     def get_dnsinfo_by_domain(self, fulldomain: str = '', pagenumber: int = 1, pagesize: int = 200):
         """
-
+        通过完整域名获得DNS记录详细信息
         :param fulldomain: str type, include hostname,netname. 完整域名，包含主机名和网络名，如www.baidu.com
         :param pagenumber: int type. 请求第几页
         :param pagesize: int type. 请求每页包含多少条记录
@@ -56,7 +56,7 @@ class DnsRecord:
 
     def get_dnsinfo_by_id(self, record_id: str):
         """
-
+        通过DNS记录id获得记录详细信息
         :param record_id: DNS's record_id, func get_dns_info can return dns record info
         :return:
         """
@@ -76,7 +76,7 @@ class DnsRecord:
 
     def add_dns_record(self, rr: str, record_type: str, domain: str, value: str):
         """
-
+        增加DNS记录
         :param rr: str type, DNS record's hostname. DNS记录的主机记录
         :param record_type: str type, DNS record's record type. options: A,CNAME,TXT... DNS记录的记录类型，可选A，CANME...
         :param domain: str type, DNS record's netname. DNS记录的域名名称
@@ -102,19 +102,23 @@ class DnsRecord:
 
     def del_dns_record(self, record_id: str):
         """
-
+        删除DNS记录
         :param record_id: DNS's record_id, func get_dns_info can return dns record info
         :return:
         """
+        # 在删除前先打印记录的详细信息
+        self.get_dnsinfo_by_id(record_id)
         request = DeleteDomainRecordRequest()
         request.set_accept_format(self.response_format)
         request.set_RecordId(str(record_id))
         response = self.client.do_action_with_exception(request)
-        print(str(response, encoding='utf-8'))
+        res_str = str(response, encoding='utf-8')
+        res_json = json.loads(res_str)
+        print("删除的记录ID为： " + AttrDict(res_json).RecordId)
 
     def change_record_status(self, record_id: str, status: str):
         """
-
+        DNS记录是否启动
         :param record_id: str type. DNS's record_id, func get_dns_info can return dns record info
         :param status: str type, Disable or Enable
         :return:
@@ -124,4 +128,8 @@ class DnsRecord:
         request.set_RecordId(record_id)
         request.set_Status(status)
         response = self.client.do_action_with_exception(request)
-        print(str(response, encoding='utf-8'))
+        res_str = str(response, encoding='utf-8')
+        res_json = json.loads(res_str)
+        print("更改状态的记录ID为： " + AttrDict(res_json).RecordId)
+        print("状态更改为： " + AttrDict(res_json).Status)
+        self.get_dnsinfo_by_id(record_id)
