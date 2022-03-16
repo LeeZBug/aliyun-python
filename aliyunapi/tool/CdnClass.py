@@ -1,7 +1,10 @@
 from aliyunsdkcdn.request.v20180510.RefreshObjectCachesRequest import RefreshObjectCachesRequest
+from aliyunsdkcdn.request.v20180510.DescribeCdnDomainDetailRequest import DescribeCdnDomainDetailRequest
 from aliyunsdkcore.acs_exception.exceptions import ServerException
 from aliyunapi.tool.Utils import serverrexception
-
+from aliyunapi.tool.Utils import AttrDict
+from aliyunapi.tool.Utils import url2domain
+import json
 
 class Cdn:
     def __init__(self, client, response_format='json'):
@@ -36,3 +39,13 @@ class Cdn:
             print("刷新失败，请登录阿里云控制台进行目录刷新！")
             serverrexception(se)
             # print("详细错误信息如下：\nRequest_ID: {0}\n错误消息为: {1}\n".format(se.get_request_id(),se.get_error_msg()))
+
+    def get_cname_info(self, speeddomain):
+        request = DescribeCdnDomainDetailRequest()
+        request.set_accept_format(self.response_format)
+        request.set_DomainName(url2domain(speeddomain))
+        response = self.client.do_action_with_exception(request)
+        resstr = str(response, encoding='utf-8')
+        res_json = json.loads(resstr)
+        print("加速域名为:" + url2domain(speeddomain) + "\nCNAME为：" + AttrDict(AttrDict(res_json).GetDomainDetailModel).Cname)
+        # print("域名:" + speeddomain + "\nCNAME为：" + res_json['GetDomainDetailModel']['Cname'])

@@ -2,6 +2,7 @@ import configparser
 import aliyunapi
 import sys
 import os
+import re
 from aliyunsdkcore.acs_exception.exceptions import ServerException
 
 def checkconfigfield(optlist, field):
@@ -96,7 +97,15 @@ def serverrexception(se: ServerException):
           .format(se.get_request_id(), se.get_error_code(), se.get_error_msg()))
 
 
+# 输入带协议的网址，返回域名
+def url2domain(url):
+    start, end = re.search(r'^[a-zA-z]+://', url).span()
+    return url[end:]
+
+
 if __name__ == '__main__':
     # region, akid, aksrt = akconfig("domainakinfo")
     # print("#####account akinfo#######:\nregion:{0}\nakid:{1}\naksrt:{2}\n".format(region, akid, aksrt))
-    print(domain_convert('www.zjrongxiang.com'))
+    # print(domain_convert('www.zjrongxiang.com'))
+    print(url2domain("https://test.lizhejie.com"))
+
