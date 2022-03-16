@@ -2,7 +2,7 @@ import configparser
 import aliyunapi
 import sys
 import os
-
+from aliyunsdkcore.acs_exception.exceptions import ServerException
 
 def checkconfigfield(optlist, field):
     """
@@ -91,8 +91,9 @@ def convert_domain(hostname, domainname):
 
 
 # 通用简洁的异常信息
-def serverrexception(se):
-    print("详细错误信息如下：\nRequest_ID: {0}\n错误消息为: {1}\n".format(se.get_request_id(), se.get_error_msg()))
+def serverrexception(se: ServerException):
+    print("详细错误信息如下：\nRequest_ID: {0}\nError Code: {1}\nError Message: {2}\n错误解释点击 https://error-center.aliyun.com/"
+          .format(se.get_request_id(), se.get_error_code(), se.get_error_msg()))
 
 
 if __name__ == '__main__':
