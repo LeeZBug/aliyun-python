@@ -98,7 +98,7 @@ def serverrexception(se: ServerException):
 
 
 # 输入带协议的网址，返回域名
-def url2domain(url):
+def schemeurl2domain(url):
     start, end = re.search(r'^[a-zA-z]+://', url).span()
     return url[end:]
 
@@ -107,5 +107,5 @@ if __name__ == '__main__':
     # region, akid, aksrt = akconfig("domainakinfo")
     # print("#####account akinfo#######:\nregion:{0}\nakid:{1}\naksrt:{2}\n".format(region, akid, aksrt))
     # print(domain_convert('www.zjrongxiang.com'))
-    print(url2domain("https://test.lizhejie.com"))
+    print(schemeurl2domain("https://test.lizhejie.com"))
 
