@@ -90,6 +90,11 @@ def convert_domain(hostname, domainname):
     return hostname+'.'+domainname
 
 
+# 通用简洁的异常信息
+def serverrexception(se):
+    print("详细错误信息如下：\nRequest_ID: {0}\n错误消息为: {1}\n".format(se.get_request_id(), se.get_error_msg()))
+
+
 if __name__ == '__main__':
     # region, akid, aksrt = akconfig("domainakinfo")
     # print("#####account akinfo#######:\nregion:{0}\nakid:{1}\naksrt:{2}\n".format(region, akid, aksrt))
