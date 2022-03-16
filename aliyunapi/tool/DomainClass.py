@@ -71,7 +71,8 @@ class DnsRecord:
         print("记录状态为： " + AttrDict(res_json).Status)
         print("记录主机名为： " + AttrDict(res_json).RR)
         print("记录类型为： " + AttrDict(res_json).Type)
-        print("记录值为： " + AttrDict(res_json).Value, end='\n\n')
+        print("记录值为： " + AttrDict(res_json).Value)
+        print("完整域名为： " + convert_domain(AttrDict(res_json).RR, AttrDict(res_json).DomainName), end='\n\n')
 
     def add_dns_record(self, rr: str, record_type: str, domain: str, value: str):
         """
