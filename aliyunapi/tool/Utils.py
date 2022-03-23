@@ -1,9 +1,12 @@
 import configparser
-import aliyunapi
-import sys
 import os
 import re
+import sys
+
 from aliyunsdkcore.acs_exception.exceptions import ServerException
+
+import aliyunapi
+
 
 def checkconfigfield(optlist, field):
     """
@@ -46,7 +49,7 @@ def akconfig(akaccount):
         print("没有配置对应账号的akid")
         exit(1)
     if not has_aksrt_field:
-        print("没有配置对应账号的akscr")
+        print("没有配置对应账号的aksrt")
         exit(1)
 
     region = cf.get(akaccount, "region")
@@ -57,7 +60,7 @@ def akconfig(akaccount):
 
 def argcheck(arglist, num):
     if len(arglist) < num:
-        print(" argument is less！Need {0} arguments!!!".format(num-1))
+        print(" argument is less！Need {0} arguments!!!".format(num - 1))
         sys.exit(1)
     else:
         pass
@@ -88,7 +91,7 @@ def domain_convert(fulldomain):
 
 # 输入主机名和主域名，返回完整域名
 def convert_domain(hostname, domainname):
-    return hostname+'.'+domainname
+    return hostname + '.' + domainname
 
 
 # 通用简洁的异常信息
@@ -103,9 +106,13 @@ def schemeurl2domain(url):
     return url[end:]
 
 
+# 错误信息拼接并打印
+def print_error_message(requestid: str = '', code: str = '', message: str = '', recommend: str = ''):
+    print("RequestId: {0}\nCode: {1}\nMessage: {2}\nRecommend: {3}\n".format(requestid, code, message, recommend))
+
+
 if __name__ == '__main__':
     # region, akid, aksrt = akconfig("domainakinfo")
     # print("#####account akinfo#######:\nregion:{0}\nakid:{1}\naksrt:{2}\n".format(region, akid, aksrt))
     # print(domain_convert('www.zjrongxiang.com'))
     print(schemeurl2domain("https://test.lizhejie.com"))
-
