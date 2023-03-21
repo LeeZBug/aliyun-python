@@ -59,11 +59,12 @@ def akconfig(akaccount):
 
 
 def argcheck(arglist, num):
-    if len(arglist) < num:
-        print(" argument is less！Need {0} arguments!!!".format(num - 1))
+    if len(arglist)-1 < num:
+        print(" argument is less！Need {0} arguments!!!".format(num))
         sys.exit(1)
-    else:
-        pass
+    elif len(arglist)-1 > num:
+        print(" argument is greater than {0}！ Only need {0} arguments!!!".format(num))
+        sys.exit(1)
 
 
 # 继承自dict，实现可以通过.来操作元素
